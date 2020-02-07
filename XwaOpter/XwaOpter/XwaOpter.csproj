@@ -51,6 +51,7 @@
       <HintPath>..\packages\JeremyAnsel.Xwa.Opt.1.0.27\lib\net40\JeremyAnsel.Xwa.Opt.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />

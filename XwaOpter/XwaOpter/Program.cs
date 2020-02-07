@@ -52,8 +52,18 @@ namespace XwaOpter
                 Console.WriteLine("Checked {0} faces", facesCount);
                 Console.WriteLine();
 
+                double threshold = 51.428571428571431;
+                string thresholdString = Microsoft.VisualBasic.Interaction.InputBox("Normals threshold in degrees", "Normals threshold", threshold.ToString(CultureInfo.InvariantCulture));
+                if (!string.IsNullOrEmpty(thresholdString))
+                {
+                    threshold = double.Parse(thresholdString, CultureInfo.InvariantCulture);
+                }
+
+                Console.WriteLine("Normals threshold = " + threshold.ToString(CultureInfo.InvariantCulture) + "°");
+                Console.WriteLine();
+
                 Console.WriteLine("Computing...");
-                XwOptComputing(opt);
+                XwOptComputing(opt, threshold);
                 Console.WriteLine("Computed");
                 Console.WriteLine();
 
@@ -203,7 +213,7 @@ namespace XwaOpter
             return facesCount;
         }
 
-        static void XwOptComputing(OptFile opt)
+        static void XwOptComputing(OptFile opt, double threshold)
         {
             var ebp94 = new List<XwVector>();
             var ebp98_vertexIndex = new List<int>();
@@ -337,7 +347,7 @@ namespace XwaOpter
                                 {
                                     double angle = XwVector.Angle(new XwVector(faceTuple.Item1.Normal), new XwVector(faceTuple2.Item1.Normal));
 
-                                    if (XwVector.AngleRadianToDegree(angle) <= 51.428571428571431)
+                                    if (XwVector.AngleRadianToDegree(angle) <= threshold)
                                     {
                                         normalSum = XwVector.Add(normalSum, new XwVector(faceTuple2.Item1.Normal));
                                     }
