@@ -16,7 +16,7 @@ namespace XwaOpter
         {
             try
             {
-                Console.WriteLine("Opt Fix 2.0");
+                Console.WriteLine("Opt Fix 2.2");
 
                 string openFileName = GetOpenFile();
                 if (string.IsNullOrEmpty(openFileName))
@@ -47,13 +47,23 @@ namespace XwaOpter
                 Console.WriteLine("{0} [{1}]", optName, optType);
                 Console.WriteLine();
 
+                int mmeshIndex = -1;
+                string mmeshIndexString = Microsoft.VisualBasic.Interaction.InputBox("Mesh index:\n-1 means whole OPT", "Mesh index", mmeshIndex.ToString(CultureInfo.InvariantCulture));
+                if (!string.IsNullOrEmpty(mmeshIndexString))
+                {
+                    mmeshIndex = int.Parse(mmeshIndexString, CultureInfo.InvariantCulture);
+                }
+
+                Console.WriteLine("Mesh index = " + (mmeshIndex < 0 ? "whole OPT" : mmeshIndex.ToString(CultureInfo.InvariantCulture)));
+                Console.WriteLine();
+
                 Console.WriteLine("Checking...");
-                int facesCount = XwOptChecking(opt);
+                int facesCount = XwOptChecking(opt, mmeshIndex);
                 Console.WriteLine("Checked {0} faces", facesCount);
                 Console.WriteLine();
 
                 double threshold = 51.428571428571431;
-                string thresholdString = Microsoft.VisualBasic.Interaction.InputBox("Normals threshold in degrees", "Normals threshold", threshold.ToString(CultureInfo.InvariantCulture));
+                string thresholdString = Microsoft.VisualBasic.Interaction.InputBox("Normals threshold in degrees:", "Normals threshold", threshold.ToString(CultureInfo.InvariantCulture));
                 if (!string.IsNullOrEmpty(thresholdString))
                 {
                     threshold = double.Parse(thresholdString, CultureInfo.InvariantCulture);
@@ -63,7 +73,7 @@ namespace XwaOpter
                 Console.WriteLine();
 
                 Console.WriteLine("Computing...");
-                XwOptComputing(opt, threshold);
+                XwOptComputing(opt, mmeshIndex, threshold);
                 Console.WriteLine("Computed");
                 Console.WriteLine();
 
@@ -115,11 +125,30 @@ namespace XwaOpter
             return null;
         }
 
-        static int XwOptChecking(OptFile opt)
+        static int XwOptChecking(OptFile opt, int selectedMeshIndex)
         {
+            int meshStart;
+            int meshEnd;
+
+            if (selectedMeshIndex < 0)
+            {
+                meshStart = 0;
+                meshEnd = opt.Meshes.Count;
+            }
+            else
+            {
+                meshStart = selectedMeshIndex;
+                meshEnd = meshStart + 1;
+
+                if (meshStart >= opt.Meshes.Count)
+                {
+                    return 0;
+                }
+            }
+
             int facesCount = 0;
 
-            for (int meshIndex = 0; meshIndex < opt.Meshes.Count; meshIndex++)
+            for (int meshIndex = meshStart; meshIndex < meshEnd; meshIndex++)
             {
                 var mesh = opt.Meshes[meshIndex];
 
@@ -213,22 +242,44 @@ namespace XwaOpter
             return facesCount;
         }
 
-        static void XwOptComputing(OptFile opt, double threshold)
+        static void XwOptComputing(OptFile opt, int selectedMeshIndex, double threshold)
         {
+            int meshStart;
+            int meshEnd;
+
+            if (selectedMeshIndex < 0)
+            {
+                meshStart = 0;
+                meshEnd = opt.Meshes.Count;
+            }
+            else
+            {
+                meshStart = selectedMeshIndex;
+                meshEnd = meshStart + 1;
+
+                if (meshStart >= opt.Meshes.Count)
+                {
+                    return;
+                }
+            }
+
             var ebp94 = new List<XwVector>();
             var ebp98_vertexIndex = new List<int>();
             var ebp9C_edgesIndex = new List<Tuple<int, int>>();
 
             var ebpC8 = new List<List<Tuple<Face, Index, int>>>(); // face, vertexIndex, meshIndex
 
-            int maxLodsCount = opt.Meshes.Max(t => t.Lods.Count);
+            int maxLodsCount = opt.Meshes
+                .Skip(meshStart)
+                .Take(meshEnd - meshStart)
+                .Max(t => t.Lods.Count);
 
             for (int i = 0; i < maxLodsCount; i++)
             {
                 ebpC8.Add(new List<Tuple<Face, Index, int>>());
             }
 
-            for (int meshIndex = 0; meshIndex < opt.Meshes.Count; meshIndex++)
+            for (int meshIndex = meshStart; meshIndex < meshEnd; meshIndex++)
             {
                 var mesh = opt.Meshes[meshIndex];
 
