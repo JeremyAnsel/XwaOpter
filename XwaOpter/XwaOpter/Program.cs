@@ -99,8 +99,18 @@ namespace XwaOpter
             dialog.CheckFileExists = true;
             dialog.Filter = "OPT files (*.opt)|*.opt";
 
+            Config config = Config.ReadConfigFile();
+
+            if (!string.IsNullOrEmpty(config.OpenOptDirectory))
+            {
+                dialog.InitialDirectory = config.OpenOptDirectory;
+            }
+
             if (dialog.ShowDialog() == true)
             {
+                config.OpenOptDirectory = Path.GetDirectoryName(dialog.FileName);
+                config.SaveConfigFile();
+
                 return dialog.FileName;
             }
 
@@ -117,8 +127,18 @@ namespace XwaOpter
             dialog.InitialDirectory = Path.GetDirectoryName(fileName);
             dialog.FileName = Path.GetFileName(fileName);
 
+            Config config = Config.ReadConfigFile();
+
+            if (!string.IsNullOrEmpty(config.SaveOptDirectory))
+            {
+                dialog.InitialDirectory = config.SaveOptDirectory;
+            }
+
             if (dialog.ShowDialog() == true)
             {
+                config.SaveOptDirectory = Path.GetDirectoryName(dialog.FileName);
+                config.SaveConfigFile();
+
                 return dialog.FileName;
             }
 
