@@ -16,7 +16,7 @@ namespace XwaOpter
         {
             try
             {
-                Console.WriteLine("Opt Fix 2.2");
+                Console.WriteLine("Opt Fix 2.4");
 
                 string openFileName = GetOpenFile();
                 if (string.IsNullOrEmpty(openFileName))
@@ -287,7 +287,7 @@ namespace XwaOpter
             var ebp98_vertexIndex = new List<int>();
             var ebp9C_edgesIndex = new List<Tuple<int, int>>();
 
-            var ebpC8 = new List<List<Tuple<Face, Index, int>>>(); // face, vertexIndex, meshIndex
+            var ebpC8 = new List<List<Tuple<Face, Indices, int>>>(); // face, vertexIndex, meshIndex
 
             int maxLodsCount = opt.Meshes
                 .Skip(meshStart)
@@ -296,7 +296,7 @@ namespace XwaOpter
 
             for (int i = 0; i < maxLodsCount; i++)
             {
-                ebpC8.Add(new List<Tuple<Face, Index, int>>());
+                ebpC8.Add(new List<Tuple<Face, Indices, int>>());
             }
 
             for (int meshIndex = meshStart; meshIndex < meshEnd; meshIndex++)
@@ -327,7 +327,7 @@ namespace XwaOpter
                         {
                             var face = faceGroup.Faces[faceIndex];
 
-                            var faceTuple = Tuple.Create(face, Index.Empty, meshIndex);
+                            var faceTuple = Tuple.Create(face, Indices.Empty, meshIndex);
                             ebpC8[lodIndex].Add(faceTuple);
 
                             XwVector normal;
@@ -338,8 +338,8 @@ namespace XwaOpter
                             // TODO
                             face.Normal = normal.ToOptVector();
 
-                            Index item2 = Index.Empty;
-                            Index vertexNormalsIndex = Index.Empty;
+                            Indices item2 = Indices.Empty;
+                            Indices vertexNormalsIndex = Indices.Empty;
 
                             for (int vertexIndex = 0; vertexIndex < faceTuple.Item1.VerticesCount; vertexIndex++)
                             {
@@ -359,7 +359,7 @@ namespace XwaOpter
 
                             faceTuple.Item1.VertexNormalsIndex = vertexNormalsIndex;
 
-                            Index edgesIndex = Index.Empty;
+                            Indices edgesIndex = Indices.Empty;
 
                             for (int vertexIndex = 0; vertexIndex < faceTuple.Item1.VerticesCount; vertexIndex++)
                             {
@@ -395,7 +395,7 @@ namespace XwaOpter
                 {
                     var faceTuple = ebpC8[lodIndex][faceIndex];
 
-                    Index vertexNormalsIndex = Index.Empty;
+                    Indices vertexNormalsIndex = Indices.Empty;
 
                     for (int vertexIndex = 0; vertexIndex < faceTuple.Item1.VerticesCount; vertexIndex++)
                     {
@@ -454,7 +454,6 @@ namespace XwaOpter
 
             return vertexIndex;
         }
-
 
         static void XwParseOpt(OptFile opt, int meshIndex, Face face, out XwVector outNormal, out double outAngle, out double outAngleSum)
         {

@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XwaOpter", "XwaOpter\XwaOpter.csproj", "{E460FCA6-3222-4F14-8938-25F27B284584}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XwaOpter", "XwaOpter\XwaOpter.csproj", "{90992522-1D81-4A99-BDB4-5A3BC75DF7DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,12 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E460FCA6-3222-4F14-8938-25F27B284584}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E460FCA6-3222-4F14-8938-25F27B284584}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E460FCA6-3222-4F14-8938-25F27B284584}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E460FCA6-3222-4F14-8938-25F27B284584}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90992522-1D81-4A99-BDB4-5A3BC75DF7DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90992522-1D81-4A99-BDB4-5A3BC75DF7DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90992522-1D81-4A99-BDB4-5A3BC75DF7DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90992522-1D81-4A99-BDB4-5A3BC75DF7DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4E61B891-C25E-4E38-91B7-15A432B6B6F3}
 	EndGlobalSection
 EndGlobal

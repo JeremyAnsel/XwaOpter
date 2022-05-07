@@ -8,7 +8,7 @@ namespace XwaOpter
 {
     static class OptIndexExtensions
     {
-        public static int AtIndex(this Index index, int i)
+        public static int AtIndex(this Indices index, int i)
         {
             switch (i)
             {
@@ -29,7 +29,7 @@ namespace XwaOpter
             }
         }
 
-        public static Index SetAtIndex(this Index index, int i, int value)
+        public static Indices SetAtIndex(this Indices index, int i, int value)
         {
             switch (i)
             {
