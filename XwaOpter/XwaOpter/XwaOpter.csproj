@@ -7,7 +7,7 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <UseWPF>true</UseWPF>
-    <Version>2.4.0</Version>
+    <Version>2.5.0</Version>
     <Company>Jérémy Ansel</Company>
     <Copyright>Copyright © 2004 Ooc, 2019 Jérémy Ansel</Copyright>
     <ApplicationIcon>icon.ico</ApplicationIcon>
